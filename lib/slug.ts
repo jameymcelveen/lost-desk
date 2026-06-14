@@ -51,3 +51,34 @@ function pick<T>(list: readonly T[]): T {
 export function generateSlug(): string {
   return `${pick(verbs)}-${pick(nouns)}-${pick(names)}`
 }
+
+/** Min/max length for a desktop slug (also a sane URL-segment bound). */
+export const SLUG_MIN_LENGTH = 2
+export const SLUG_MAX_LENGTH = 63
+
+/**
+ * Coerce arbitrary user input into a slug-shaped string: lowercased, accent-
+ * stripped, with any run of non-alphanumerics collapsed to a single hyphen and
+ * leading/trailing hyphens removed. e.g. `"  Aunt Carlotta! "` → `aunt-carlotta`.
+ */
+export function normalizeSlug(input: string): string {
+  return input
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "") // drop combining diacritics
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+}
+
+/**
+ * Whether a string is a valid, already-normalized slug: lowercase alphanumeric
+ * words joined by single hyphens, within the length bounds. Pair with
+ * {@link normalizeSlug} — validate the normalized form, not raw input.
+ */
+export function isValidSlug(slug: string): boolean {
+  return (
+    slug.length >= SLUG_MIN_LENGTH &&
+    slug.length <= SLUG_MAX_LENGTH &&
+    /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)
+  )
+}

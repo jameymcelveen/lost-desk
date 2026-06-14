@@ -8,6 +8,13 @@
       "when": 1781471914102,
       "tag": "0000_panoramic_madrox",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1781475390722,
+      "tag": "0001_seed_reserved_desktops",
+      "breakpoints": true
     }
   ]
 }

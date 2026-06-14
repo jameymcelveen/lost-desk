@@ -1,0 +1,27 @@
+# Local development stack for lost-desk.
+#
+# The app talks to a remote Neon Postgres over Neon's serverless driver, so the
+# database itself is NOT containerized — credentials come from .env.local
+# (pull them with `vercel env pull .env.local`). Run with `make dev`.
+
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    image: lost-desk:dev
+    container_name: lost-desk
+    env_file:
+      - .env.local
+    environment:
+      NODE_ENV: development
+      # Poll the filesystem so hot-reload works reliably across the bind mount.
+      WATCHPACK_POLLING: "true"
+    ports:
+      - "3000:3000" # Next.js dev server
+      - "4983:4983" # Drizzle Studio
+    volumes:
+      - .:/app # live source for hot reload
+      - /app/node_modules # keep the image's installed deps
+      - /app/.next # don't leak build cache to the host
+    command: pnpm dev -H 0.0.0.0
