@@ -1,81 +1,62 @@
-import { Chrome, Notebook } from "./components/notebook";
+import { Plus, ChevronsUpDown } from "lucide-react";
+import { ClosedNotebook } from "./components/closed-notebook";
 
-const frames = [
-  {
-    label: "1 — Empty page",
-    note: "Placeholder “Start writing…” in soft ink.",
-    state: "empty" as const,
-    page: 1,
-  },
-  {
-    label: "2 — Written page",
-    note: "A few paragraphs of body text on the writing surface.",
-    state: "written" as const,
-    page: 12,
-  },
-  {
-    label: "3 — Mid page-turn",
-    note: "Corner curled, a page sweeping across.",
-    state: "turning" as const,
-    page: 13,
-  },
-];
+const DESKTOP_NAME = "set-aunt-carlotta";
 
-export default function Page() {
+export default function DesktopPage() {
   return (
-    <main className="min-h-screen bg-desk">
+    <main className="relative min-h-screen overflow-hidden bg-desk">
       {/* Faint vignette over the desk */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0"
         style={{
           background:
-            "radial-gradient(120% 100% at 50% 30%, transparent 55%, rgba(43,42,40,0.07) 100%)",
+            "radial-gradient(120% 100% at 50% 35%, transparent 55%, rgba(43,42,40,0.07) 100%)",
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-[1400px] px-6 py-16 md:px-10">
-        <div className="mb-12">
-          <h1 className="font-sans text-sm font-semibold uppercase tracking-[0.18em] text-ink-soft">
-            lost-desk · Anchor 1
-          </h1>
-          <p className="mt-1 font-serif text-2xl text-ink">Open Notebook</p>
+      {/* Engraved desktop nameplate, top-center */}
+      <div className="absolute inset-x-0 top-0 z-20 flex justify-center px-6 py-6">
+        <div className="rounded-md bg-surface-sunk px-4 py-1.5 shadow-[inset_0_1px_2px_rgba(43,42,40,0.18),0_1px_0_rgba(246,241,231,0.6)]">
+          <span className="font-mono text-[13px] tracking-tight text-ink-soft">
+            {DESKTOP_NAME}
+          </span>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 gap-x-10 gap-y-20 lg:grid-cols-3">
-          {frames.map((frame) => (
-            <section key={frame.label} className="flex flex-col items-center">
-              {/* Each frame is its own framed desk surface */}
-              <div className="relative w-full overflow-hidden rounded-2xl bg-desk shadow-[inset_0_0_0_1px_rgba(104,92,83,0.12)]">
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    background:
-                      "radial-gradient(110% 90% at 50% 25%, transparent 60%, rgba(43,42,40,0.06) 100%)",
-                  }}
-                />
-                <Chrome />
-                <div className="flex items-center justify-center px-8 pb-24 pt-28">
-                  <Notebook
-                    state={frame.state}
-                    page={frame.page}
-                    total={40}
-                  />
-                </div>
-              </div>
+      {/* Unobtrusive desktop controls, top-right */}
+      <div className="absolute right-6 top-6 z-20 flex items-center gap-1">
+        <button
+          type="button"
+          className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-ink-soft transition-colors hover:text-ink"
+        >
+          <ChevronsUpDown className="h-4 w-4" strokeWidth={2} />
+          <span className="hidden sm:inline">switch desktop</span>
+        </button>
+        <button
+          type="button"
+          className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-ink-soft transition-colors hover:text-ink"
+        >
+          <Plus className="h-4 w-4" strokeWidth={2} />
+          <span className="hidden sm:inline">new desktop</span>
+        </button>
+      </div>
 
-              <div className="mt-6 text-center">
-                <p className="font-sans text-sm font-semibold text-ink">
-                  {frame.label}
-                </p>
-                <p className="mt-1 max-w-[34ch] font-sans text-sm leading-relaxed text-ink-soft">
-                  {frame.note}
-                </p>
-              </div>
-            </section>
-          ))}
-        </div>
+      {/* The desk surface — an implied grid that more tools can land on later */}
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-6 py-28">
+        <section
+          aria-label="Tools on this desktop"
+          className="grid w-full max-w-[1100px] grid-cols-2 gap-x-12 gap-y-16 sm:grid-cols-3 lg:grid-cols-4"
+        >
+          {/* The single tool: the notebook */}
+          <div className="flex flex-col items-center gap-10">
+            <ClosedNotebook title="Notebook" version="v1.0" href="/notebook" />
+            <span className="font-sans text-sm font-medium text-ink-soft">
+              Notebook
+            </span>
+          </div>
+        </section>
       </div>
     </main>
   );

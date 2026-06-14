@@ -19,7 +19,7 @@ const pageSerif = Newsreader({
 });
 
 export const metadata: Metadata = {
-  title: "lost-desk — Open Notebook",
+  title: "lost-desk — Desktop",
   description: "A desktop you will never lose. The notebook is the only tool.",
 };
 

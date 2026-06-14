@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 
 type NotebookState = "empty" | "written" | "turning";
@@ -150,13 +151,13 @@ export function Chrome({ tenant = "set-aunt-carlotta" }: { tenant?: string }) {
   return (
     <header className="pointer-events-none absolute inset-x-0 top-0 z-40 flex items-center justify-between px-6 py-5 md:px-10">
       {/* Top-left: back to desktop */}
-      <button
-        type="button"
+      <Link
+        href="/"
         className="pointer-events-auto flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-ink-soft transition-colors hover:text-ink"
       >
         <ArrowLeft className="h-4 w-4" strokeWidth={2} />
         <span>desktop</span>
-      </button>
+      </Link>
 
       {/* Top-center: engraved nameplate */}
       <div className="pointer-events-auto rounded-md bg-surface-sunk px-4 py-1.5 shadow-[inset_0_1px_2px_rgba(43,42,40,0.18),0_1px_0_rgba(246,241,231,0.6)]">
