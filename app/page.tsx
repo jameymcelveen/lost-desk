@@ -50,11 +50,8 @@ export default function DesktopPage() {
           className="grid w-full max-w-[1100px] grid-cols-2 gap-x-12 gap-y-16 sm:grid-cols-3 lg:grid-cols-4"
         >
           {/* The single tool: the notebook */}
-          <div className="flex flex-col items-center gap-10">
+          <div className="flex flex-col items-center">
             <ClosedNotebook title="Notebook" version="v1.0" href="/notebook" />
-            <span className="font-sans text-sm font-medium text-ink-soft">
-              Notebook
-            </span>
           </div>
         </section>
       </div>

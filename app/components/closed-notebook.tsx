@@ -34,7 +34,7 @@ export function ClosedNotebook({
         {/* Horizontal belly band across the middle (rust) */}
         <div
           aria-hidden
-          className="absolute inset-x-0 top-1/2 h-12 -translate-y-1/2 bg-accent shadow-[0_1px_0_rgba(0,0,0,0.12),0_-1px_0_rgba(0,0,0,0.12)]"
+          className="absolute inset-x-0 top-1/2 h-12 -translate-y-1/2 bg-accent"
         />
 
         {/* Elastic band down the right edge (charcoal spine tone) */}
@@ -54,13 +54,15 @@ export function ClosedNotebook({
         </div>
       </div>
 
-      {/* Ribbon hanging from the bottom edge (rust), clear of content */}
+      {/* Thin ribbon peeking from UNDER the bottom edge, offset toward the spine */}
       <div
         aria-hidden
-        className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-7"
+        className="absolute bottom-0 left-[22%] z-0 translate-y-[18px]"
       >
-        <div className="h-9 w-3 bg-accent shadow-[0_8px_10px_-6px_rgba(43,42,40,0.5)]" />
-        <div className="h-0 w-0 border-x-[6px] border-t-[8px] border-x-transparent border-t-accent" />
+        <div
+          className="h-6 w-1.5 bg-accent"
+          style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%)" }}
+        />
       </div>
     </Link>
   );
