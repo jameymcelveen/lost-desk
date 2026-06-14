@@ -1,18 +1,49 @@
-# v0 Prompts — "Desktop" v1 (Notebook tool)
+# v0 Prompts — "lost-desk" v1 (Notebook tool)
 
 Design-only pass. Goal: lock the look of three screens, then port the
 markup + CSS variables into Lit web components later via Claude/Cursor.
 
-**Run order (same play as Christ Medical):**
-1. Run **Anchor 1 — Open Notebook** first. It decides type, color, material, page-turn.
-2. Screenshot the winner.
-3. Run **Anchor 2 — The Desktop** and **Anchor 3 — Create / Switch** in the *same v0 chat*, each starting with "Match the attached screenshot." Attach the Anchor 1 shot.
-
-**Why design-only:** v0 emits Next.js/React/Tailwind, not Lit. You're harvesting the *visual* + the CSS-variable token set, not the framework code. The prompts force all color into a semantic `:root` block and keep the DOM clean so it re-skins into Lit cleanly.
+**Status:** Prompt 1 (Open Notebook) is LOCKED. Use frame 2 (written page) as
+the match reference for Prompts 2 and 3 — the "match this" preamble is already
+baked into both.
 
 ---
 
-## Shared design system (paste into Anchor 1; carries through the chat)
+## How to run this in v0
+
+Do all of this in **one v0 chat**. Three prompts below (Open Notebook,
+The Desktop, Create / Switch), run in this order:
+
+1. **First message** — paste the **Shared design system** block AND the
+   **Open Notebook** prompt together. Iterate until you like it.
+2. **Screenshot** the written-page frame (frame 2).
+3. **Next message, same chat** — paste **The Desktop** prompt, attach frame 2.
+4. **Next message, same chat** — paste **Create / Switch**, attach frame 2.
+5. *(optional)* Run the **Mobile** pass.
+
+Prompts 2 and 3 already start with a "match this locked design" preamble, so
+they inherit the notebook look instead of drifting.
+
+**Why design-only:** v0 emits Next.js/React/Tailwind, not Lit. You're
+harvesting the *visual* + the CSS-variable token set, not the framework code.
+The prompts force all color into a semantic `:root` block and keep the DOM
+clean so it re-skins into Lit cleanly.
+
+---
+
+## Naming & routing model
+
+- A **desktop** is the tenant/workspace. Its name is a generated memorable
+  passphrase: lowercase, hyphen-separated, e.g. `set-aunt-carlotta`.
+- Each desktop lives at its own URL: `lost-desk.com/<desktop-name>`
+  e.g. `lost-desk.com/set-aunt-carlotta`. (Domain not secured yet.)
+- A **notebook** is a tool that sits on a desktop. In v1.0 there is exactly one
+  and you cannot add more, so its title defaults to `Notebook` (or `Notebook 1`).
+- On the open-notebook screen: the back-link carries the DESKTOP name (it's
+  where "←" returns to), and the engraved nameplate shows the NOTEBOOK title
+  `Notebook` — NOT the desktop name.
+
+## Shared design system  *(paste with prompt 1; it carries through the chat)*
 
 ```
 == STACK ==
@@ -67,7 +98,7 @@ in the icon stroke.
 
 ---
 
-## Anchor 1 — Open Notebook  *(run first)*
+## Prompt 1 · Open Notebook  — paste this FIRST  *(LOCKED)*
 
 ```
 Design the OPEN NOTEBOOK screen for a desktop app whose only tool (for now)
@@ -76,37 +107,57 @@ is a notebook you write on. Use the shared design system above.
 LAYOUT
 - Full-bleed --desk surface, very subtle, no texture, optional faint vignette.
 - Centered: a single open notebook page (single page, NOT a two-page spread).
-  The charcoal --cover wraps/peeks behind the page; the page is --surface with
-  faint --rule horizontal lines and generous margins.
-- A rust (--accent) ribbon bookmark hangs from the top edge over the page.
-- The elastic band sits along the right edge, pushed open.
+  The charcoal --cover wraps the page; show a binding seam + a thin page-stack
+  edge on one side so it reads as an open book, not a screen in a case.
+- The page is --surface with faint --rule horizontal lines, a rust margin rule,
+  and generous margins.
+- A rust (--accent) ribbon bookmark hangs from the top edge near the spine and
+  trails off the page. It NEVER crosses the text column — keep the writing
+  column narrow enough to always clear it.
+- The elastic band sits along the right edge.
 - The page is the writing surface: looks like a contenteditable area, text in
-  --ink in the warm page face, a left margin rule.
+  --ink in the warm page face.
 
 CHROME (minimal, floats over the desk, not a heavy toolbar)
-- Top-left: a small "← desktop" affordance.
-- Top-center: a slim engraved nameplate showing the tenant/desktop name in a
-  monospace-ish treatment, e.g. "set-aunt-carlotta".
+- Top-left: a small back affordance that carries the DESKTOP name, e.g.
+  "← set-aunt-carlotta" (returns to the desktop).
+- Top-center: a slim engraved nameplate showing the NOTEBOOK title in a
+  monospace-ish treatment — "Notebook" (v1.0 default; not the desktop name).
 - Page-turn: subtle left/right chevrons at the lower corners, plus a bottom-
   right corner-curl affordance that turns the page. Page indicator bottom-
   center, e.g. "12 / 40". Imply a soft page-curl turn animation.
 
 STATES (show as separate frames)
 1. Empty page — placeholder "Start writing…" in --ink-soft.
-2. Page with a few paragraphs of handwriting-style body text.
-3. (optional) mid page-turn with the corner curled.
+2. Page with a few paragraphs of handwriting-style body text. When the page
+   fills, soft-fade the bottom line so it reads "page full," not "cut off."
+3. Mid page-turn with the corner curled, a page sweeping across.
 
 Sunlight-readable contrast, large touch targets, no decoration for its own sake.
 ```
 
 ---
 
-## Anchor 2 — The Desktop  *(same chat; attach Anchor 1 screenshot)*
+## Prompt 2 · The Desktop  — same chat, attach frame 2
 
 ```
-Match the attached open-notebook screenshot exactly — same palette, type,
-material, and shadow language. Now design THE DESKTOP: a clean surface that
-holds tools. For v1 the only tool is the notebook.
+== MATCH THIS LOCKED DESIGN (see attached screenshot) ==
+This is the "Open Notebook" screen, already approved. Match it exactly. Do not
+reinterpret the look — reuse the same tokens, type, material, and spacing.
+- Palette: the same CSS custom properties as the attached screen. Warm parchment
+  --desk surface, charcoal --cover notebook, rust --accent (Campus Brick) for the
+  margin rule, ribbon, and any primary action. Warm near-black --ink text.
+- Type: UI chrome in a clean grotesque; any "paper" text in the same warm serif.
+- The notebook object: charcoal bound cover, rounded corners, one soft drop
+  shadow, an elastic band and a rust ribbon. The ribbon hangs from the spine/top
+  edge and NEVER crosses content.
+- Skeuomorphic but flat/iconographic, NOT photoreal. No textures, no gradients
+  beyond a single soft shadow, no glassmorphism, no dark mode.
+- Same nameplate treatment: mono, e.g. "set-aunt-carlotta".
+Keep hairlines, whitespace, and corner radii consistent with the attached screen.
+
+== SCREEN: THE DESKTOP ==
+A clean surface that holds tools. For v1 the only tool is the notebook.
 
 LAYOUT
 - --desk surface fills the screen.
@@ -114,9 +165,11 @@ LAYOUT
   e.g. "set-aunt-carlotta", in the same treatment as the notebook chrome.
 - The notebook sits on the desk as a CLOSED bound object, rendered like a clean
   flat Moleskine icon at hero size: --cover charcoal, a horizontal belly band
-  in --accent across the middle, a matching --accent ribbon at the bottom, an
-  elastic band down the right edge, rounded corners, one soft drop shadow.
-  Tapping it opens the notebook (the Anchor 1 screen).
+  across the middle, a matching ribbon at the bottom, an elastic band down the
+  right edge, rounded corners, one soft drop shadow. The belly band and ribbon
+  are the SAME rust --accent as the open-notebook ribbon — NOT a brighter orange.
+  The notebook's title "Notebook" appears on its cover/spine (v1.0 default).
+  Tapping it opens the notebook (the Prompt 1 screen).
 - Compose the desk so MORE tools can land later without breaking it: leave a
   subtle implied grid / breathing room around the notebook. Do not add other
   tools yet — notebook only.
@@ -130,11 +183,24 @@ Keep it quiet and confident. No dashboard widgets, no nav rail clutter.
 
 ---
 
-## Anchor 3 — Create / Switch Desktop  *(same chat; attach Anchor 1 screenshot)*
+## Prompt 3 · Create / Switch desktop  — same chat, attach frame 2
 
 ```
-Match the attached design language. Design the ENTRY screen for creating and
-switching desktops. A "desktop" is a workspace = a tenant. No login.
+== MATCH THIS LOCKED DESIGN (see attached screenshot) ==
+This is the "Open Notebook" screen, already approved. Match it exactly. Do not
+reinterpret the look — reuse the same tokens, type, material, and spacing.
+- Palette: the same CSS custom properties as the attached screen. Warm parchment
+  --desk surface, charcoal --cover notebook, rust --accent (Campus Brick) for
+  primary actions. Warm near-black --ink text.
+- Type: UI chrome in a clean grotesque; any "paper" text in the same warm serif.
+- Skeuomorphic but flat/iconographic, NOT photoreal. No textures, no gradients
+  beyond a single soft shadow, no glassmorphism, no dark mode.
+- Same nameplate treatment: mono, e.g. "set-aunt-carlotta".
+Keep hairlines, whitespace, and corner radii consistent with the attached screen.
+
+== SCREEN: CREATE / SWITCH DESKTOP ==
+The ENTRY screen for creating and switching desktops. A "desktop" is a
+workspace = a tenant. No login.
 
 LAYOUT
 - --desk surface, a single calm centered card (--surface, hairline border at
@@ -142,8 +208,10 @@ LAYOUT
 - Primary action: a rust (--accent) button "Create a new desktop".
 - On create, reveal the minted name with a subtle animation, shown like a
   generated memorable passphrase: lowercase, hyphen-separated three-word style,
-  e.g. "set-aunt-carlotta", "loud-river-pelican", "calm-uncle-figment". Include
-  a small "regenerate" link and an "Enter →" button.
+  e.g. "set-aunt-carlotta", "loud-river-pelican", "calm-uncle-figment". These
+  are DESKTOP names. Show the resulting URL as a hint, e.g.
+  "lost-desk.com/set-aunt-carlotta". Include a small "regenerate" link and an
+  "Enter →" button.
 - Below: a list of existing desktops, each row = name (mono treatment) +
   "last opened" timestamp, tappable to enter.
 - Empty/first-run state: "No desktops yet. Create one to get started."
@@ -158,9 +226,7 @@ STATES (separate frames)
 
 ---
 
-## Mobile
-
-Add to any anchor, or run a mobile pass after desktop is locked:
+## Mobile  *(add to any prompt, or run after the desktop look is locked)*
 
 ```
 Mobile (single column, ~390px):
@@ -185,3 +251,5 @@ mobile. Not recommended — it splits the metaphor from desktop.
   Bowman `#566127`, College Avenue `#333333`. Parchment/surface values above
   are eyeballed placeholders.
 - Keep "tools on a desktop" extensible in the markup — the notebook is tool #1.
+- Routing: a desktop is `/<desktop-name>` (the tenant). v1.0 has exactly one
+  notebook per desktop, titled "Notebook", with no add-notebook affordance yet.
