@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  /* desk + paper */
+  --desk: #efe7d6; /* warm parchment desk surface */
+  --surface: #f6f1e7; /* notebook page / cards */
+  --surface-sunk: #ece3d2; /* recessed wells, page edges */
+  --rule: #d8cdb8; /* faint horizontal page rule lines */
+  /* ink */
+  --ink: #2b2a28; /* primary text */
+  --ink-soft: #6b655c; /* secondary text / placeholders */
+  --hairline: #685c53; /* borders, use at low opacity */
+  /* the notebook object */
+  --cover: #3e3e3e; /* charcoal cover */
+  --cover-spine: #2d2d2d; /* spine + elastic band */
+  /* accent */
+  --accent: #b94700; /* belly band, ribbon, primary actions */
+  --accent-ink: #ffffff; /* text on accent */
+  --state-sage: #566127; /* success/state if needed */
+}
+
+@theme inline {
+  --color-desk: var(--desk);
+  --color-surface: var(--surface);
+  --color-surface-sunk: var(--surface-sunk);
+  --color-rule: var(--rule);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-hairline: var(--hairline);
+  --color-cover: var(--cover);
+  --color-cover-spine: var(--cover-spine);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-state-sage: var(--state-sage);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-page-serif), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--desk);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
